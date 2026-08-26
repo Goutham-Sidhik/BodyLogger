@@ -10,7 +10,7 @@ const FIELDS = [
   { key: 'thigh',       fallback: 'thigh_right', label: 'Thigh' },
 ]
 
-const CM_TO_IN = 0.3937
+const IN_TO_CM = 2.54
 
 function resolve(m, key, fallback) {
   const v = m?.[key]
@@ -18,9 +18,10 @@ function resolve(m, key, fallback) {
   return fallback ? (m?.[fallback] ?? null) : null
 }
 
-function convert(cmVal, unit) {
-  if (cmVal == null) return null
-  return unit === 'in' ? parseFloat((cmVal * CM_TO_IN).toFixed(1)) : cmVal
+// Values are stored in inches; convert to cm only when displaying in cm.
+function convert(inVal, unit) {
+  if (inVal == null) return null
+  return unit === 'cm' ? parseFloat((inVal * IN_TO_CM).toFixed(1)) : inVal
 }
 
 function weekAvg(logs, key, fallback, daysAgoStart, daysAgoEnd) {
@@ -73,11 +74,11 @@ function startDelta(logs, key, fallback, currentValue) {
 
 function DeltaCell({ delta, unit }) {
   if (delta == null) return <span className="text-muted text-xs">—</span>
-  const absCm = Math.abs(delta)
-  if (absCm < 0.1) return <span className="text-muted text-xs">~0</span>
-  const display = unit === 'in'
-    ? parseFloat((absCm * CM_TO_IN).toFixed(1))
-    : absCm
+  const absIn = Math.abs(delta)
+  if (absIn < 0.1) return <span className="text-muted text-xs">~0</span>
+  const display = unit === 'cm'
+    ? parseFloat((absIn * IN_TO_CM).toFixed(1))
+    : absIn
   if (delta < 0) return <span className="text-accent text-xs font-medium">↓ {display}</span>
   return <span className="text-orange-400 text-xs font-medium">↑ {display}</span>
 }
@@ -106,7 +107,7 @@ function MeasRow({ label, value, weekDelta, monthDelta, sinceStartDelta, unit })
 }
 
 export default function Measurements({ summary, logs }) {
-  const [unit, setUnit] = useState('cm')
+  const [unit, setUnit] = useState('in')
   const latest = summary?.latest_measurements || {}
 
   const entries = useMemo(() => FIELDS.map(({ key, fallback, label }) => {

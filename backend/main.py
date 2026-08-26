@@ -34,7 +34,6 @@ async def _run_telegram_bot():
     try:
         tgbot_path = Path(__file__).parent.parent / "tgbot"
         sys.path.insert(0, str(tgbot_path))
-        print(f"Added {tgbot_path} to sys.path for Telegram bot")
         from bot import run_bot
         logger.info("Starting Telegram bot...")
         await run_bot()

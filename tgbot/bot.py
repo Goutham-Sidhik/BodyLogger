@@ -16,7 +16,6 @@ from telegram.ext import (
 )
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "backend"))
-print(f"Added {Path(__file__).parent.parent / 'backend'} to sys.path for backend imports")
 from data_layer import json_storage as db
 
 logger = logging.getLogger("bodylog.tgbot")
@@ -86,7 +85,7 @@ def _format_log(log: dict, date_str: str) -> str:
         ("waist_belly", "Waist"), ("hip", "Hip"), ("thigh", "Thigh"),
     ]:
         if m.get(key):
-            mlines.append(f"  • {label}: {m[key]} cm")
+            mlines.append(f"  • {label}: {m[key]} in")
     if mlines:
         lines.append("\n📏 *Measurements:*")
         lines.extend(mlines)
@@ -134,12 +133,12 @@ async def cmd_help(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         "`/dashboard` — Get dashboard link\n\n"
         "*Quick entry (always logs for today):*\n"
         "`weight 101.4` — Weight in kg\n"
-        "`waist 85.0` — Waist circumference (cm)\n"
-        "`neck 40.0` — Neck (cm)\n"
-        "`chest 95.0` — Chest (cm)\n"
-        "`bicep 38.0` — Bicep (cm)\n"
-        "`hip 95.0` — Hip (cm)\n"
-        "`thigh 60.0` — Thigh (cm)\n"
+        "`waist 33.5` — Waist circumference (in)\n"
+        "`neck 15.7` — Neck (in)\n"
+        "`chest 37.4` — Chest (in)\n"
+        "`bicep 15.0` — Bicep (in)\n"
+        "`hip 37.4` — Hip (in)\n"
+        "`thigh 23.6` — Thigh (in)\n"
         "`calories 2000` — Calories in\n"
         "`protein 150` — Protein (g)\n"
         "`carbs 200` — Carbs (g)\n"
@@ -203,7 +202,7 @@ async def handle_message(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     parts = text.split()
     if len(parts) < 2:
         await update.message.reply_text(
-            "Use commands like:\n`weight 101.4`\n`waist 85.0`\n`/help` for full list",
+            "Use commands like:\n`weight 101.4`\n`waist 33.5`\n`/help` for full list",
             parse_mode="Markdown",
         )
         return
@@ -232,7 +231,7 @@ async def handle_message(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         storage_key = MEASUREMENT_MAP[key]
         label = MEASUREMENT_LABELS[key]
         db.upsert_log({"date": today, "measurements": {storage_key: value}})
-        await update.message.reply_text(f"✅ {label} updated to *{value} cm*", parse_mode="Markdown")
+        await update.message.reply_text(f"✅ {label} updated to *{value} in*", parse_mode="Markdown")
 
     elif key in NUTRITION_KEYS:
         nkey = NUTRITION_KEYS[key]

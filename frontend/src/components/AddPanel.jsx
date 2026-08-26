@@ -50,7 +50,7 @@ export default function AddPanel({ open, onClose, onSave, onDelete, existingLog,
   const [date, setDate]               = useState(todayISO())
   const [weight, setWeight]           = useState('')
   const [measurements, setMeasures]   = useState({})
-  const [measUnit, setMeasUnit]       = useState('cm')
+  const [measUnit, setMeasUnit]       = useState('in')
   const [nutrition, setNutrition]     = useState({})
   const [notes, setNotes]             = useState('')
   const [photos, setPhotos]           = useState([])
@@ -70,7 +70,7 @@ export default function AddPanel({ open, onClose, onSave, onDelete, existingLog,
       thigh:       m.thigh       ?? m.thigh_right ?? '',
       waist_belly: m.waist_belly ?? m.waist       ?? '',
     })
-    setMeasUnit('cm')
+    setMeasUnit('in')
     setNutrition(log?.nutrition ?? {})
     setNotes(log?.notes ?? '')
     setPending([])
@@ -149,8 +149,8 @@ export default function AddPanel({ open, onClose, onSave, onDelete, existingLog,
           MEAS_FIELDS.map(f => {
             const n = parseFloat(measurements[f.key])
             if (isNaN(n)) return [f.key, null]
-            // Always save in cm
-            return [f.key, measUnit === 'in' ? parseFloat((n * IN_TO_CM).toFixed(1)) : n]
+            // Always save in inches
+            return [f.key, measUnit === 'cm' ? parseFloat((n * CM_TO_IN).toFixed(2)) : n]
           })
         ),
         nutrition: {

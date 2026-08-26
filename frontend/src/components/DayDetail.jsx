@@ -87,7 +87,7 @@ export default function DayDetail({ log, heightCm, onClose, onEdit }) {
                   {measEntries.map(e => (
                     <div key={e.key} className="flex justify-between items-center py-1.5 border-b border-card-border/40">
                       <span className="text-muted text-xs">{e.label}</span>
-                      <span className="text-white text-xs font-medium">{e.value} <span className="text-muted text-[10px] font-normal">cm</span></span>
+                      <span className="text-white text-xs font-medium">{e.value} <span className="text-muted text-[10px] font-normal">in</span></span>
                     </div>
                   ))}
                 </div>

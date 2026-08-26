@@ -31,11 +31,14 @@ export function pct(value, total) {
   return Math.round((value / total) * 100)
 }
 
-// US Navy body fat formula (male). Requires waist, neck (cm) and height (cm).
+// US Navy body fat formula (male). Measurements are stored in inches; height stays in cm.
+const IN_TO_CM = 2.54
 export function calcBodyFat(measurements, heightCm) {
-  const waist = measurements?.waist_belly ?? measurements?.waist
-  const neck  = measurements?.neck
-  if (!waist || !neck || !heightCm) return null
+  const waistIn = measurements?.waist_belly ?? measurements?.waist
+  const neckIn  = measurements?.neck
+  if (!waistIn || !neckIn || !heightCm) return null
+  const waist = waistIn * IN_TO_CM
+  const neck  = neckIn * IN_TO_CM
   const diff = waist - neck
   if (diff <= 0) return null
   const bf = 495 / (1.0324 - 0.19077 * Math.log10(diff) + 0.15456 * Math.log10(heightCm)) - 450
