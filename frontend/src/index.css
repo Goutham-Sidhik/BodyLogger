@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-bg text-white font-sans antialiased;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0c12;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e2233;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a3045;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card border border-card-border rounded-xl;
+  }
+
+  .btn-primary {
+    @apply bg-accent-dim hover:bg-accent text-black font-semibold px-4 py-2 rounded-lg transition-colors duration-150 text-sm;
+  }
+
+  .btn-ghost {
+    @apply text-muted hover:text-white text-sm transition-colors duration-150;
+  }
+
+  .input-field {
+    @apply bg-subtle border border-card-border rounded-lg px-3 py-2 text-white text-sm
+           placeholder-muted focus:outline-none focus:border-accent-dim transition-colors;
+    width: 100%;
+  }
+
+  .label {
+    @apply text-muted text-xs font-medium uppercase tracking-wider mb-1 block;
+  }
+}
+
+/* Slide-in panel animation */
+.panel-enter {
+  transform: translateX(100%);
+}
+.panel-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease;
+}
+.panel-exit {
+  transform: translateX(0);
+}
+.panel-exit-active {
+  transform: translateX(100%);
+  transition: transform 300ms ease;
+}
+
+/* Recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #1e2233 !important;
+}
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}

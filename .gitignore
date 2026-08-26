@@ -1,0 +1,15 @@
+.env
+*.pyc
+__pycache__/
+.venv/
+venv/
+node_modules/
+dist/
+.DS_Store
+logs/*.log
+data/data.json
+data/images/*
+*.tmp
+.claude/
+Build_specs.md
+Screen_Design.png
